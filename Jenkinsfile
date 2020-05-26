@@ -15,7 +15,7 @@ pipeline {
         stage("Build image") {
             steps {
                 script {
-                    myapp = docker.build("asia.gcr.io/hello:${env.BUILD_ID}")
+                    myapp = docker.build("asia.gcr.io/trial-velostrata/hello:${env.BUILD_ID}")
                 }
             }
         }
@@ -23,8 +23,8 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://asia.gcr.io', 'gcr:trial-velostrata') {
-                            myapp.push("latest")
-                            myapp.push("${env.BUILD_ID}")
+                        myapp.push("${env.BUILD_ID}")    
+                        myapp.push("latest")
                     }
                 }
             }
