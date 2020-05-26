@@ -15,14 +15,14 @@ pipeline {
         stage("Build image") {
             steps {
                 script {
-                    myapp = docker.build("anggit/hello:${env.BUILD_ID}")
+                    myapp = docker.build("asia.gcr.io/hello:${env.BUILD_ID}")
                 }
             }
         }
         stage("Push image") {
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                    docker.withRegistry('https://asia.gcr.io', 'gcr:trial-velostrata') {
                             myapp.push("latest")
                             myapp.push("${env.BUILD_ID}")
                     }
