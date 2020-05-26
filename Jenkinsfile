@@ -15,7 +15,7 @@ pipeline {
         stage("Build image") {
             steps {
                 script {
-                    myapp = docker.build("asia.gcr.io/trial-velostrata/hello:${env.BUILD_ID}")
+                    myapp = docker.build("trial-velostrata/hello:${env.BUILD_ID}")
                 }
             }
         }
