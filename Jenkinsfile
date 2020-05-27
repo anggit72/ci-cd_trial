@@ -36,5 +36,13 @@ pipeline {
                 step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deployment.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: false])
             }
         }
-    }    
+    }
+         stage('Deploy to EKS') {
+            steps{
+                sh "aws eks update-kubeconfig --name test --region ap-southeast-1"
+                sh "sed -i 's/hello:latest/hello:${env.BUILD_ID}/g' deployment.yaml"
+                sh "kubectl apply -f /var/lib/jenkins/workspace/hello/deployment.yaml"
+            }
+        }
+    } 
 }
