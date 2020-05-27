@@ -37,9 +37,9 @@ pipeline {
         }
         stage('Deploy to EKS') {
             steps{
-                sh "cd /var/lib/jenkins/workspace/hello"
-                sh "chmod +x eks-deploy.sh"
-                sh "./eks-deploy.sh"
+                sh "sed -i 's/hello:latest/hello:${env.BUILD_ID}/g' deployment.yaml"
+                sh "kubectl use context arn:aws:eks:ap-southeast-1:485418931031:cluster/test"
+                sh "kubectl apply -f /var/lib/jenkins/workspace/hello/deployment.yaml"
             }
         }
     } 
