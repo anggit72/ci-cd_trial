@@ -1,38 +1,33 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-name: hello
-labels:
-  app: hello
+  name: hello-app
 spec:
-  strategy:
-    type: Recreate
+  selector:
+    matchLabels:
+      app: hello
+  replicas: 1
   template:
     metadata:
       labels:
         app: hello
-        tier: hello
-  spec:
-    containers:
-    - name: hello
-      image: anggit/hello:latest
-      imagePullPolicy: Always
-      ports:
-      - containerPort: 8080
-        name: hello
-
+    spec:
+      containers:
+      - name: hello
+        image: "anggit/hello:latest"
+        
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
-name: hello
-labels:
-  app: hello
+  name: ilb-service
+  labels:
+    app: hello
 spec:
-  ports:
-    - port: 80
-      targetPort: 8080
+  type: LoadBalancer
   selector:
     app: hello
-    tier: hello
-type: LoadBalancer
+  ports:
+  - port: 8080
+    protocol: TCP
