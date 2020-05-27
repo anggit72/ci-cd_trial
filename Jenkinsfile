@@ -38,7 +38,7 @@ pipeline {
          stage('Deploy to EKS') {
              steps{
                 sh "sed -i 's/hello:latest/hello:${env.BUILD_ID}/g' deployment.yaml"
-                sh "kubectl config use current-context arn:aws:eks:ap-southeast-1:485418931031:cluster/test"
+                sh "kubectl config use context arn:aws:eks:ap-southeast-1:485418931031:cluster/test"
                 sh "kubectl apply -f /var/lib/jenkins/workspace/hello/deployment.yaml"
             }
         }
