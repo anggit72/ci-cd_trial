@@ -38,7 +38,7 @@ pipeline {
         }
          stage('Deploy to EKS') {
             steps{
-                sh "aws eks update-kubeconfig --name test --region ap-southeast-1"
+                sh "/usr/local/bin/aws eks update-kubeconfig --name test --region ap-southeast-1"
                 sh "sed -i 's/hello:latest/hello:${env.BUILD_ID}/g' deployment.yaml"
                 sh "kubectl apply -f /var/lib/jenkins/workspace/hello/deployment.yaml"
             }
