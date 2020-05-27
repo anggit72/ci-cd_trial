@@ -37,9 +37,9 @@ pipeline {
             }
         }
          stage('Deploy to EKS') {
-            steps{
-                sh "/usr/local/bin/aws eks update-kubeconfig --name test --region ap-southeast-1"
+             steps{
                 sh "sed -i 's/hello:latest/hello:${env.BUILD_ID}/g' deployment.yaml"
+                sh "/bin/kubectl config use-context arn:aws:eks:ap-southeast-1:485418931031:cluster/test"
                 sh "/bin/kubectl apply -f /var/lib/jenkins/workspace/hello/deployment.yaml"
             }
         }
