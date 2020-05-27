@@ -35,5 +35,12 @@ pipeline {
                 step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deployment.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: false])
             }
         }
+        stage('Deploy to EKS') {
+            steps{
+                sh "cd /var/lib/jenkins/workspace/hello"
+                sh "chmod +x eks-deploy.sh"
+                sh "./eks-deploy.sh"
+            }
+        }
     } 
 }
