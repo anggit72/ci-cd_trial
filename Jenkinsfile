@@ -5,7 +5,6 @@ pipeline {
         CLUSTER_NAME = 'test'
         LOCATION = 'asia-southeast1'
         CREDENTIALS_ID = 'gke'
-        CREDENTIALS_ID_gcr = 'gke'
     }
     stages {
         stage("Checkout code") {
@@ -38,10 +37,9 @@ pipeline {
         }
          stage('Deploy to EKS') {
              steps{
-                withKubeConfig([credentialsId: 'jenkins-deployer-credentials', serverUrl: 'https://262FD10CFF117B6B3BCFE617DB571AF9.gr7.ap-southeast-1.eks.amazonaws.com']) {
                 sh "sed -i 's/hello:latest/hello:${env.BUILD_ID}/g' deployment.yaml"
+                sh "kubectl config use current-context arn:aws:eks:ap-southeast-1:485418931031:cluster/test"
                 sh "kubectl apply -f /var/lib/jenkins/workspace/hello/deployment.yaml"
-                }
             }
         }
     } 
