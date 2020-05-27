@@ -40,7 +40,7 @@ pipeline {
              steps{
                 withKubeConfig([credentialsId: 'jenkins-deployer-credentials', serverUrl: 'https://262FD10CFF117B6B3BCFE617DB571AF9.gr7.ap-southeast-1.eks.amazonaws.com']) {
                 sh "sed -i 's/hello:latest/hello:${env.BUILD_ID}/g' deployment.yaml"
-                sh "/bin/kubectl apply -f /var/lib/jenkins/workspace/hello/deployment.yaml"
+                sh "kubectl apply -f /var/lib/jenkins/workspace/hello/deployment.yaml"
                 }
             }
         }
