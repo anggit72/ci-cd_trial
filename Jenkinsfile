@@ -37,9 +37,9 @@ pipeline {
         }
          stage('Deploy to EKS') {
              steps{
-                sh "cd /var/lib/jenkins/workspace/hello/"
+                sh "cd /var/lib/jenkins/workspace/hello"
                 sh "chmod +x eks-deploy.sh"
-                sh ".eks-deploy.sh"
+                sh "./eks-deploy.sh"
             }
         }
     } 
