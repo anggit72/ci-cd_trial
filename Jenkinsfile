@@ -5,6 +5,7 @@ pipeline {
         CLUSTER_NAME = 'test'
         LOCATION = 'asia-southeast1'
         CREDENTIALS_ID = 'gke'
+        CREDENTIALS_ID_gcr = 'gke'
     }
     stages {
         stage("Checkout code") {
