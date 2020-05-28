@@ -43,8 +43,15 @@ pipeline {
                 sh "kubectl apply -f /var/lib/jenkins/workspace/hello/deployment.yaml"
             }
         }
-        timeout(time: 1, unit: "MINUTES") {
-            input message: 'Do you want to approve the deploy in production?', ok: 'Yes'
+        stage('Approval') {
+            // no agent, so executors are not used up when waiting for approvals
+            agent none
+            steps {
+                script {
+                    def deploymentDelay = input id: 'Deploy', message: 'Deploy to production?', submitter: 'rkivisto,admin', parameters: [choice(choices: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24'], description: 'Hours to delay deployment?', name: 'deploymentDelay')]
+                    sleep time: deploymentDelay.toInteger(), unit: 'MINUTS'
+                }
+            }
         }
         stage('Deploy to GKE Prod') {
             steps{
